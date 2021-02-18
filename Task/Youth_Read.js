@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-15 12:29
+更新时间: 2021-02-16 15:00
 Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk0301/scripts/master/githubAction.md) 使用方法大同小异
 
 请自行抓包，阅读文章和看视频，倒计时转一圈显示青豆到账即可，多看几篇文章和视频，获得更多包数据，抓包地址为"https://ios.baertt.com/v5/article/complete.json"，在Github Actions中的Secrets新建name为'YOUTH_READ'的一个值，拷贝抓包的请求体到下面Value的文本框中，添加的请求体越多，获得青豆次数越多，本脚本不包含任何推送通知
@@ -10,13 +10,15 @@ Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk030
 
 const $ = new Env("中青看点阅读")
 //const notify = $.isNode() ? require('./sendNotify') : '';
-let ReadArr = [], readscore = 0;
-let YouthBody = $.getdata('youth_autoread');
-
+let ReadArr = [], timebodyVal ="";
+let YouthBody = $.getdata('youth_autoread')||$.getdata("zqgetbody_body");
+let artsnum = 0, videosnum = 0;
+let videoscore = 0,readscore = 0;
 if (isGetbody = typeof $request !==`undefined`) {
    Getbody();
    $done()
 } 
+let lastIndex = $.getdata('zq_lastbody')
 if(!$.isNode()&&!YouthBody==true){
   $.log("您未获取阅读请求，请求阅读后获取")
   $.msg($.name, "您未获取阅读请求，请求阅读后获取","",{'open-url':"https://kandian.youth.cn/u/8S9DO"})
@@ -34,16 +36,18 @@ if(!$.isNode()&&!YouthBody==true){
     } else {
       YouthBody = [process.env.YOUTH_READ]
     }
-    console.log(` ============ 脚本执行 - 北京时间 (UTC + 8)：${new Date(Date.now() + 8 * 60 * 60 * 1000).toLocaleString()} =============\n`)
-
   } else if (!$.isNode() && YouthBody.indexOf("&") > -1) {
     YouthBody = YouthBody.split("&")
-  }
+  };
   Object.keys(YouthBody).forEach((item) =>{
     if (YouthBody[item]) {
       ReadArr.push(YouthBody[item])
     }
   })
+    timeZone = new Date().getTimezoneOffset() / 60;
+    timestamp = Date.now()+ (8+timeZone) * 60 * 60 * 1000;
+    bjTime = new Date(timestamp).toLocaleString('zh',{hour12:false,timeZoneName: 'long'});
+    console.log(`\n === 脚本执行 ${bjTime} ===\n`);
   $.log("\n  您共获取"+ReadArr.length+"次阅读请求，任务开始\n")
 }
       
@@ -52,15 +56,21 @@ if(!$.isNode()&&!YouthBody==true){
     console.log($.name, '【提示】请把抓包的请求体填入Github 的 Secrets 中，请以&隔开')
     return;
   }
-  for (let i = 0; i < ReadArr.length; i++) {
+
+let indexLast = $.getdata('zqbody_index');
+ $.begin = indexLast ? parseInt(indexLast,10) : 1;
+ $.index = 0;
+  for ( var i = indexLast ? indexLast:0; i < ReadArr.length; i++) {
     if (ReadArr[i]) {
       articlebody = ReadArr[i];
-       $.index = i + 1;
+       $.index =  $.index + 1;
     console.log(`-------------------------\n\n开始中青看点第${$.index}次阅读`);
+      await $.wait(1000);
       await AutoRead();
     };
  }
-   console.log(`-------------------------\n\n中青看点共完成${$.index}次阅读，共计获得${readscore}个青豆，阅读请求全部结束`)
+   $.log("本次共阅读"+artsnum+"次资讯，共获得"+readscore+"青豆\n观看"+videosnum+"次视频，获得"+videoscore+"青豆(不含0青豆次数)\n")
+   console.log(`-------------------------\n\n中青看点共完成${$.index}次阅读，共计获得${readscore+videoscore}个青豆，阅读请求全部结束`)
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
@@ -70,10 +80,21 @@ function AutoRead() {
   return new Promise((resolve, reject) =>{
     $.post(batHost('article/complete.json', articlebody), async(error, response, data) =>{
       let readres = JSON.parse(data);
-      console.log(JSON.stringify(readres,null,2))
+      // $.log(JSON.stringify(readres,null,2))
+      $.begin=$.begin+1;
+      let res=$.begin%ReadArr.length
+      $.setdata(res+"", 'zqbody_index');
       if (readres.error_code == '0' && data.indexOf("read_score") > -1 && readres.items.read_score > 0) {
         console.log(`\n本次阅读获得${readres.items.read_score}个青豆，请等待30s后执行下一次阅读\n`);
-        readscore += readres.items.read_score;
+        if(data.indexOf("ctype")>-1){
+         if(readres.items.ctype==0){
+          artsnum += 1
+          readscore += readres.items.read_score;
+         } else if(readres.items.ctype==3){
+          videosnum += 1
+          videoscore += readres.items.read_score;
+         } 
+        }
         if ($.index % 2 == 0) {
           if ($.isNode() && process.env.YOUTH_ATIME) {
             timebodyVal = process.env.YOUTH_ATIME;
@@ -85,16 +106,14 @@ function AutoRead() {
         if($.index==ReadArr.length){
         $.log($.index+"次任务已全部完成，即将结束")
         } else {
-        await $.wait(30000);
+        await $.wait(28000);
         }
       } else if (readres.error_code == '0' && data.indexOf('"score":0') > -1 && readres.items.score == 0) {
-        console.log(`\n本次阅读获得0个青豆，等待2s即将开始下次阅读\n`);
-        await $.wait(2000);
+        console.log(`\n本次阅读获得0个青豆，等待1s即将开始下次阅读\n`);
       } else if (readres.success == false) {
         console.log(`第${$.index}次阅读请求有误，请删除此请求`)
       } else if (readres.items.max_notice == '\u770b\u592a\u4e45\u4e86\uff0c\u63621\u7bc7\u8bd5\u8bd5') {
         console.log(readres.items.max_notice)
-        await $.wait(2000);
       }
       resolve()
     })

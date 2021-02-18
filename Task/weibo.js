@@ -26,15 +26,24 @@ if(!$.isNode()&&wbtoken.indexOf("#")==-1){
 if ($.isNode()) {
   if (process.env.WB_TOKEN && process.env.WB_TOKEN.indexOf('#') > -1) {
    wbtoken = process.env.WB_TOKEN.split('#');
-   console.log(`您选择的是用"#"隔开\n`)
+   console.log(`WB_TOKEN您选择的是用"#"隔开\n`)
   }
   else if (process.env.WB_TOKEN && process.env.WB_TOKEN.indexOf('\n') > -1) {
    wbtoken = process.env.WB_TOKEN.split('\n');
-   console.log(`您选择的是用换行隔开\n`)
+   console.log(`WB_TOKEN您选择的是用换行隔开\n`)
   } else {
    wbtoken = [process.env.WB_TOKEN]
   };
-    console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
+    if (process.env.WB_COOKIE && process.env.WB_COOKIE.indexOf('#') > -1) {
+   cookies = process.env.WB_COOKIE.split('#');
+   console.log(`WB_COOKIE您选择的是用"#"隔开\n`)
+  }
+  else if (process.env.WB_COOKIE && process.env.WB_COOKIE.indexOf('\n') > -1) {
+   cookies = process.env.WB_COOKIE.split('\n');
+   console.log(`WB_COOKIE您选择的是用换行隔开\n`)
+  } else {
+   cookies = [process.env.WB_COOKIE]
+  };
 } else if (!$.isNode()&&wbtoken.indexOf("#")>-1) {
    wbtoken = wbtoken.split("#");
    cookies = cookies.split("#")
@@ -55,7 +64,11 @@ if ($.isNode()) {
     $.msg($.name, '【提示】请先获取新浪微博一cookie')
     return;
   }
-   console.log(`------------- 共${tokenArr.length}个账号\n`)
+    timeZone = new Date().getTimezoneOffset() / 60;
+    timestamp = Date.now()+ (8+timeZone) * 60 * 60 * 1000;
+    bjTime = new Date(timestamp).toLocaleString('zh',{hour12:false,timeZoneName: 'long'});
+    console.log(`\n === 脚本执行 ${bjTime} ===\n`);
+    console.log(`------------- 共${tokenArr.length}个账号\n`)
   for (let i = 0; i < tokenArr.length; i++) {
     if (tokenArr[i]) {
       token = tokenArr[i];
@@ -134,8 +147,8 @@ function getsign() {
      else if (result.status == 90005){
          wbsign = `【每日签到】‼️`+ result.msg + '\n'
        } else {
-         wbsign = `【每日签到】 ❌ 签到失败`+result.errmsg
-         $.msg($.name, wbsign, ``)
+         wbsign = `【每日签到】 ❌ 签到失败 `+result.errmsg;
+         $.msg($.name, wbsign, `请检查微博Token`)
        if ($.isNode()) {
          await notify.sendNotify($.name, wbsign)
            }
@@ -241,7 +254,7 @@ async function showmsg() {
  if (paybag) {
     $.msg($.name, nickname+(signcash?signcash:""), wbsign+paybag+docard);
   if ($.isNode()) {
-       await notify.sendNotify($.name, nickname+'\n'+ wbsign+paybag+docard)
+       await notify.sendNotify($.name, nickname+(signcash?signcash:"")+'\n'+ wbsign+paybag+docard)
      }
    }
 }

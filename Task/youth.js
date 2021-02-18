@@ -1,14 +1,15 @@
 /*
-更新时间: 2021-02-14 16:50
+更新时间: 2021-02-17 22:50
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
-食用说明请查看本仓库目录Taskconf/youth/readme.md，其中打卡挑战赛可通过Boxjs开关，报名时间为23点，早起打卡时间为早5点，报名需1000青豆押金，打卡成功可返1000+青豆，打卡失败则押金不予返还，请注意时间运行
+食用说明请查看本仓库目录Taskconf/youth/readme.md，其中打卡挑战赛可通过Boxjs开关，报名时间为23点，早起打卡时间为早5点，报名需1000青豆押金，打卡成功可返1000+青豆，打卡失败则押金不予返还，请注意时间运行，
+转发文章获得青豆不实，请无视
 
 */
 
-let s = 1000 //各数据接口延迟
 const $ = new Env("中青看点")
 let notifyInterval = $.getdata("notifytimes")||50 //通知间隔，默认抽奖每50次通知一次，如需关闭全部通知请设为0
+let s = $.getdata('delay_rotary_zq')||"10" //转盘延迟时间
 const notify = $.isNode() ? require('./sendNotify') : '';
 const ONCard = $.getdata('zqcard')||"false" //早起打卡开关
 const withdrawcash = $.getdata('zqcash')||30 //提现金额
@@ -51,7 +52,6 @@ if(!$.isNode()&&cookieYouth.indexOf("#") ==-1){
     } else {
         READTIME = [process.env.YOUTH_TIME]
     }
-    console.log(` ============脚本执行 - 北京时间 (UTC + 8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()} =============\n`);
  } else if(!$.isNode()&&cookieYouth.indexOf("#")>-1){
    cookieYouth = cookieYouth.split("#")
    ARTBODYs = ARTBODYs.split("&")
@@ -72,18 +72,22 @@ if(!$.isNode()&&cookieYouth.indexOf("#") ==-1){
             timeArr.push(READTIME[item])
         }
     });
- console.log(` ============= 您共提供${cookieArr.length}个中青账号 =============`);
+    timeZone =  new Date().getTimezoneOffset() / 60;
+    timestamp = Date.now()+ (8+timeZone) * 60 * 60 * 1000;
+    bjTime = new Date(timestamp).toLocaleString('zh',{hour12:false,timeZoneName: 'long'});
+    console.log(`\n === 脚本执行 ${bjTime} ===\n`);
+    console.log(` =========== 您共提供${cookieArr.length}个中青账号 ==========`);
 }
+
 if (isGetCookie = typeof $request !== 'undefined') {
    GetCookie();
    $.done()
 };
 !(async () => {
   if (!cookieArr[0]) {
-    $.msg($.name, '【提示】请先获取中青看点一cookie')
+    $.msg($.name, '【提示】请先获取中青看点一cookie',"",{'open-url': "https://kandian.youth.cn/u/mhkjN"})
     return;
   }
-
   for (let i = 0; i < cookieArr.length; i++) {
     if (cookieArr[i]) {
       cookie = cookieArr[i];
@@ -94,30 +98,31 @@ if (isGetCookie = typeof $request !== 'undefined') {
     myuid = cookie.match(/uid=\d+/);
     await userInfo();
     $.log(`\n********** ${nick} 现金收益: ${cash}元 ********\n`);
-    await kdHost();
     await friendsign();
+    await ExtraList();
     await TaskCenter() 
     await openbox();
     await getAdVideo();
     await gameVideo();
     await readArticle();
+  $.log("开始转盘抽奖任务")
 for (k=0;k<5;k++){
-  await $.wait(1000);
+  await $.wait(s*1000);
   await rotary();
 
 if (rotaryres.status == 0) {
       rotarynum = ` 转盘${rotaryres.msg}🎉`;
       break
    } else if(rotaryres.status == 1){
-     console.log("等待1s进行开始转盘任务")
+     console.log("等待"+s+"秒进行开始转盘任务")
      rotaryscore += rotaryres.data.score
      rotarytimes = rotaryres.data.remainTurn
   }
 }
 
 if (rotaryres.status == 1) {
-  detail += `【转盘抽奖】+${rotaryscore}个青豆 剩余${rotaryres.data.remainTurn}次\n`
-$.log(`转盘抽奖: 共计+${rotaryscore}个青豆 剩余${rotaryres.data.remainTurn}次\n`)
+  detail += `【转盘抽奖】+${rotaryscore}个青豆 剩余${rotaryres.data.remainTurn}次\n`;
+  $.log(`转盘抽奖: 共计+${rotaryscore}个青豆 剩余${rotaryres.data.remainTurn}次`)
 }
 if (rotaryres.status !== 0&&rotaryres.data.doubleNum !== 0){
   detail += `【转盘双倍】+${doublerotary}青豆 剩余${rotaryres.data.doubleNum}次\n`
@@ -166,14 +171,17 @@ function TaskCenter() {
             } else if (dailys.status == "2" && dailys.action != "") {
               $.log(dailys.title + "，" + dailys.but + "，已领取青豆" + dailys.score)
               detail += `【${dailys.title}】✅  ${dailys.score}青豆\n`
-            };
-            if (dailys.title=="打卡赚钱"&&dailys.status == "0"&&ONCard == "true") {
+            }
+            else if (dailys.title=="打卡赚钱"&&dailys.status == "0"&&ONCard == "true") {
              await CardStatus()
             }
-            if (dailys.id == "7" && dailys.status == "0") {
+            else if (dailys.id == "7" && dailys.status == "0") {
               await readTime();
              }
-            if (dailys.id == "10" && dailys.status == "0") {
+            else if (dailys.id == "4" && dailys.status == "0") {
+              await getArt();
+             }
+            else if (dailys.id == "10" && dailys.status == "0") {
               $.log(dailys.title + "未完成，去做任务");
               for (x = 0; x < 5; x++) {
                 $.log("等待5s执行第" + (x + 1) + "次");
@@ -226,6 +234,40 @@ function getsign() {
     })
 }
       
+function getArt() {
+  return new Promise((resolve, reject) =>{
+    $.post(kdHost('WebApi/ArticleTop/listsNewTag'), async(error, resp, data) =>{
+      artres = JSON.parse(data);
+      if (artres.status == 1) {
+        for (arts of artres.data.items) {
+          titlename = arts.title;
+          account = arts.account_id;
+          if (arts.status == "1") {
+            $.log("去转发文章");
+            $.log(titlename + " ----- " + arts.account_name);
+            await artshare(arts.id);
+            break;
+            //await $.wait(500)
+          }
+        }
+      }
+      resolve()
+    })
+  })
+}
+
+function artshare(artsid) {
+  return new Promise((resolve, reject) =>{
+    $.post(kdHost('WebApi/ShareNew/getShareArticleReward', cookie + "&" + "article_id=" + artsid), async(error, resp, data) =>{
+      shareres = JSON.parse(data);
+      if (shareres.status == 1) {
+        $.log("转发成功，共计转发" + shareres.data.items.share_num + "篇文章，获得青豆" + shareres.data.score)
+      }
+      resolve()
+    })
+  })
+}
+
 function userInfo() {
     return new Promise((resolve, reject) => {
         $.post(kdHost('WebApi/NewTaskIos/getSign'), async(error, resp, data) => {
@@ -297,6 +339,8 @@ function CardStatus() {
         } else if (punchcard.data.user.status == 3&&$.time("HH")==cardTime) {
           $.log("打卡时间已到，去打卡");
           await endCard()
+        } else if (punchcard.data.user.status == 0) {
+          $.log("今日您未报名早起打卡");
         }
       } else if (punchcard.code == 0) {
         $.log("打卡申请失败" + data)
@@ -563,6 +607,38 @@ function readTime() {
     })
 }
 
+function ExtraList() {
+  return new Promise((resolve, reject) =>{
+    $.post(kdHost('WebApi/ShareNew/bereadExtraList'), async(error, resp, data) =>{
+      extrares = JSON.parse(data);
+      if (extrares.status == 2) {
+        $.log("参数错误" + JSON.stringify(extrares));
+      } else if (extrares.status == 1 && extrares.data.taskList[0].status == 1) {
+        timestatus = extrares.data.taskList[0].status;
+        timetitle = extrares.data.taskList[0].name;
+        $.log(timetitle + "可领取，去领青豆");
+        await TimePacket();
+      }
+      resolve()
+    })
+  })
+}
+
+function TimePacket() {
+  return new Promise((resolve, reject) =>{
+    $.post(kdHost('WebApi/TimePacket/getReward', cookie), (error, resp, data) =>{
+      let timeres = JSON.parse(data);
+      if (timeres.code == 1) {
+        $.log("获得" + timeres.data.score + "青豆");
+        detail += "【" + timetitle + "】获得" + timeres.data.score + "青豆\n"
+      } else if (timeres.code == 0) {
+        $.log(timeres.msg)
+      }
+      resolve()
+    })
+  })
+}
+
 //转盘任务
 function rotary() {
   return new Promise((resolve, reject) =>{
@@ -572,7 +648,8 @@ function rotary() {
         if (rotaryres.status==1){
            $.log("进行"+Number(100-rotaryres.data.remainTurn)+"次转盘，获得"+rotaryres.data.score+"青豆")
          if(rotaryres.data.score != 0&&rotaryres.data.doubleNum!=0){
-           await $.wait(5000);
+          $.log("等待10s，获得双倍青豆")
+           await $.wait(10000);
            await TurnDouble();
           }
           await rotaryCheck();
@@ -606,7 +683,6 @@ function runRotary(index) {
         const rotarbody = cookie + '&num=' + index;
         $.post(kdHost(`WebApi/RotaryTable/chestReward?_=${Date.now()}&`,rotarbody), (error, resp, data) => {
         let rotaryresp = JSON.parse(data);
-          //$.log(formatJson(data));
             if (rotaryresp.status == 1) {
                 detail += `【转盘宝箱${index}】+${rotaryresp.data.score}个青豆\n`;
             }else{
@@ -642,7 +718,7 @@ function earningsInfo() {
     $.get(kdHost(`wap/user/balance?`+cookie), (error, response, data) =>{
       infores = JSON.parse(data);
       if (infores.status == 0) {
-        detail += ` <收益统计> ：\n`
+        detail += ` <收益统计>：\n`
         for (i = 0; i < infores.history[0].group.length; i++) {
           detail += '【' + infores.history[0].group[i].name + '】' + infores.history[0].group[i].money + '个青豆\n'
         }
@@ -662,7 +738,7 @@ async function showmsg() {
          $.msg($.name+"  "+nick+" "+rotarynum,subTitle,detail)//任务全部完成且通知间隔不为0时通知;
         } 
      else {
-       console.log(`【收益总计】${totalscore}青豆  现金约${cash}元\n`+ detail)
+       console.log(`\n【收益总计】${totalscore}青豆  现金约${cash}元\n`+ detail)
    }
 }
 
