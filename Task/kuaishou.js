@@ -1,57 +1,20 @@
 /*
-更新时间: 2021-02-18 20:20
-
-本脚本仅适用于快手双版本签到，注意正式版Cookie签到有时效性，但Cookie仍然可用于签到极速版，即正式版会掉签；极速版Cookie只能用于极速版，支持正式版获取多Cookie
-
-正式版APP获取Cookie方法:
-  1.将下方[rewrite_local]地址复制的相应的区域下,无需填写hostname;
-  2.打开APP稍等几秒，即可获取Cookie.
-
-极速版获取方法，
-  1.把URL的正则改为 https:\/\/nebula\.kuaishou\.com\/nebula\/task\/earning\?，添加hostname = nebula.kuaishou.com;
-  2.点击设置页面的"积分兑好礼"即可
+更新时间: 2021-02-19 16:50
+赞赏:快手邀请码`774010415`,农妇山泉 -> 有点咸，万分感谢
+本脚本仅适用于快手双版本签到，仅支持正式版获取多Cookie，建议使用正式版获取Cookie，点击视频页悬浮红包，或者进入设置，点击"积分兑好礼"即可
 
 兼容Nodejs,把获取的Cookie填入KS_TOKEN，多账号用"&"分开
-
-非专业人士制作，欢迎各位大佬提出宝贵意见和指导
-by Sunert
-特别感谢
-@Chavy
-@Nobyda
-~~~~~~~~~~~~~~~~
-
-Surge 4.0 :
-[Script]
-快手 = type=cron,cronexp=35 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js,script-update-interval=0
-
-快手 = type=http-request,pattern=http:\/\/uploads\d\.gifshow\.com\/rest\/n\/system\/speed,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
-
-~~~~~~~~~~~~~~~~
-Loon 2.1.0+
-[Script]
-# 本地脚本
-cron "04 00 * * *" script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js, enabled=true, tag=快手
-
-http-request http:\/\/uploads\d\.gifshow\.com\/rest\/n\/system\/speed script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
-
------------------
-
-QX 1.0.7+ :
-[task_local]
-0 9 * * * kuaishou.js
-
-[rewrite_local]
-
-http:\/\/uploads\d\.gifshow\.com\/rest\/n\/system\/speed url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
-
-~~~~~~~~~~~~~~~~
-
 */
-const logs = false   //日志开关
+
 const $ = new Env('快手视频')
 let cookieArr = [];
 let ks_tokens = $.getdata('cookie_ks')
 
+let isGetCookie = typeof $request !== 'undefined'
+if (isGetCookie) {
+   GetCookie();
+   $.done()
+} else {
 if (!$.isNode() && ks_tokens.indexOf('&') == -1) {
   cookieArr.push(ks_tokens)
 } else {
@@ -70,28 +33,21 @@ if (!$.isNode() && ks_tokens.indexOf('&') == -1) {
     }
   })
 }
-
-let isGetCookie = typeof $request !== 'undefined'
-if (isGetCookie) {
-   GetCookie();
-   $.done()
-} else {
 !(async() => {
  if(!cookieArr[0]){
       $.msg($.name, '【提示】🉐登录快手pp获取cookie',"", {"open-url": "https://live.kuaishou.com/fission/offkwai/index?cc=share_copylink&kpf=IPHONE&traceId=27&fid=1570609569&code=3429390431&shareMethod=token&kpn=KUAISHOU&subBiz=INVITE_CODE&shareId=1000517297081&shareToken=X-1oTjAy1OkMhgQk_AO&platform=copylink&shareMode=app&shareObjectId=3429390431"});
       return
   }
-  if ($.isNode()){
     timeZone = new Date().getTimezoneOffset() / 60;
     timestamp = Date.now()+ (8+timeZone) * 60 * 60 * 1000;
-    bjTime = new Date(timestamp).toLocaleString('zh',{hour12:false,timeZoneName: 'long'});
+    bjTime = new Date(timestamp).toLocaleString('zh',{hour12:false,timeZoneName: 'long'})
     console.log(`\n === 脚本执行 ${bjTime} ===\n`);
-  }
+    console.log(` === 共 ${cookieArr.length}个 账号 === `)
  for (let i = 0; i < cookieArr.length; i++) {
     if (cookieArr[i]) {
       cookieVal = cookieArr[i];
       $.index = i + 1;
-      console.log(`-------------------\n\n开始【快手视频账号${$.index}】`)
+      console.log(`\n------------------------\n\n开始【快手视频账号${$.index}】\n`)
      await speedSign();
      await speedSigninfo();
      await speedInfo();
@@ -133,21 +89,31 @@ function formalCenter() {
             moduleDesc = lists.moduleDesc;
             $.log(moduleDesc + "\n");
             for (tasks of lists.tasks) {
+              //$.log(JSON.stringify(tasks,null,2));
               status = tasks.status,
               bizId = tasks.bizId,
               tasktoken = tasks.token,
               eventId = tasks.eventId,
+              schemeText = tasks.schemeText
               taskName = tasks.reward.rewardName;
-              if (Id == "1123") {
                 if (status == 5) {
                   $.log(taskName + "  " + tasks.schemeText + "\n")
-                } else if (tasks.schemeText == "去签到") {
-                  $.log(taskName + tasks.schemeText + "\n");
-                  await formalSign()
-                  continue
+                } else if (status == 2) {
+                  $.log(taskName + schemeText + "\n");
+                 if (Id == "1123") {
+                  await formalSign();
+                  break
+                } else if (Id == "1176") {
+                //$.log(taskName)
+                  await getReward();
+                  break
+               }
+              } else if (Id == "1749"){
+                 if(status == 4){
+                  await openbox(tasktoken, eventId)
+                 } else if(status == 1){
+                  $.log(tasks.reward.rewardName+"，时间未达到\n")
                 }
-              } else if (Id == "1749" && status == 4) {
-                await openbox(tasktoken, eventId)
               }
             }
           }
@@ -187,39 +153,65 @@ function openbox(tokens, eventId) {
 function formalSign() {
    return new Promise((resolve, reject) => {
     $.post(formalHost('task/signIn','{"bizId": 29}'), (error, response, data) => {
- 
-      let officialSign_res = JSON.parse(data)
-          offici_code = officialSign_res.result
+      let formalSign_res = JSON.parse(data)
+          offici_code = formalSign_res.result
       if(offici_code == 100111){
-         offic_sign = `签到结果: ${officialSign_res.error_msg}`;
-         logs?$.log(`错误信息: ${officialSign_res.error_msg}`):"";
-         resolve()
+         offic_sign = `签到结果: ${formalSign_res.error_msg}`;
+         $.log(`错误信息: ${formalSign_res.error_msg}`);
          return
         } else if(offici_code == 100136){
-         offic_sign = `签到结果: ${officialSign_res.error_msg}`
-     if(logs)console.log(""+officialSign_res.error_msg)
+         offic_sign = `签到结果: ${formalSign_res.error_msg}`;
+      $.log(""+formalSign_res.error_msg)
         } else if(offici_code == 1){
-         offic_sign = `签到结果: ✅ +${officialSign_res.reward.rewardCount} 积分`
+         offic_sign = `签到结果: ✅ +${formalSign_res.reward.rewardCount} 积分`
         }
        resolve()
       })
    })
  }
 
-function formalinfo() {
-   return new Promise((resolve, reject) => {
-    infourl = {
-		url: 'https://zt.gifshow.com/rest/zt/encourage/account/summary/withKscoinTrial?kpn=KUAISHOU&subBiz=lowActiveUserTaskEncourage',
-		headers: {Cookie: cookieVal,
-'Content-Type': 'application/json;charset=utf-8'},}
-    $.get(infourl, async(error, response, data) => {
-    // $.log(`${$.name}, data: ${data}`)
-      let _info = JSON.parse(data)
-     if (_info.result == 1){ 
-        offic_info = `收益: ${_info.data.accounts[0].displayBalance}积分  现金: ${_info.data.accounts[1].displayBalance}元\n`
-       }
+function getReward() {
+  return new Promise((resolve, reject) =>{
+    $.post(formalHost('task/appStartup/reward', '{"bizId": 29}'), (error, response, data) =>{
+      let reward_res = JSON.parse(data);
+      //moduleDesc = reward_res.appStartupModule.moduleDesc;
+      if (data.indexOf('surpriseRewardCount') > -1) {
+        surpriseReward = reward_res.reward.surpriseRewardCount
+      }
+      switch (reward_res.rewardSuccess) {
+      case true:
+        $.log("获得积分" + reward_res.reward.rewardCount + surpriseReward ? "现金奖励" + surpriseReward / 100 + "元": "");
+        break;
+      case false:
+            //$.log(moduleDesc + "未完成  " + schemeText);
+        break;
+      default:
+        $.log('前面的条件不满足');
+        break;
+      }
       resolve()
-     })
+    })
+  })
+}
+
+
+function formalinfo() {
+  return new Promise((resolve, reject) =>{
+    infourl = {
+      url: 'https://zt.gifshow.com/rest/zt/encourage/account/summary/withKscoinTrial?kpn=KUAISHOU&subBiz=lowActiveUserTaskEncourage',
+      headers: {
+        Cookie: cookieVal,
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+    }
+    $.get(infourl, async(error, resp, data) =>{
+      // $.log(`${$.name}, data: ${data}`)
+      let _info = JSON.parse(data);
+      if (_info.result == 1) {
+        offic_info = `积分: ${_info.data.accounts[0].displayBalance}积分  现金: ${_info.data.accounts[1].displayBalance}元\n`
+      }
+      resolve()
+    })
   })
 }
 function formalAct() {
@@ -229,7 +221,6 @@ function formalAct() {
     body: '{"bizId": 29}'
    }
 	$.post(reurl, (error, response, data) =>{
-       //$.log(`${$.name}, data: ${data}`)
 	let result = JSON.parse(data) 
 	if (result.message == "success") {
          var rewards = result.data.amount/100
@@ -248,13 +239,12 @@ function speedSign() {
 		url: 'https://nebula.kuaishou.com/rest/n/nebula/sign/sign',
 		headers: {Cookie: cookieVal}}
     $.get(signurl, (error, response, data) => {
-      if(logs)$.log(`${$.name}, data: ${data}`)
       let speed_res = JSON.parse(data)
        speed_code = speed_res.result
       if(speed_code == 10007){
          speed_sign = `签到结果: ${speed_res.error_msg}`;
          $.msg($.name,speed_sign,'');
-       if(logs) $.log(`错误信息: ${speed_res.error_msg}`)
+         $.log(`错误信息: ${speed_res.error_msg}`)
          $.done()
         } else if(speed_code == 10901){
          speed_sign = `签到结果: ${speed_res.error_msg}`
@@ -273,7 +263,6 @@ function speedSigninfo() {
 'Content-Type': 'application/json;charset=utf-8'},
 }
     $.get(earnurl, (error, response, data) => {
-     if(logs)$.log(`${$.name}, data: ${data}`)
       let result = JSON.parse(data)
      if (result.result == '1'){ 
         speed_info = `${result.data.nebulaSignInPopup.subTitle}, ${result.data.nebulaSignInPopup.title}\n`
@@ -288,11 +277,10 @@ function speedInfo() {
     headers: {Cookie: cookieVal,
 'Content-Type': 'application/json;charset=utf-8'},}
 	$.get(reurl, async(error, response, data) =>{
-	if(logs)$.log(`${$.name}, data: ${data}`)
 	let result = JSON.parse(data) 
 	if (result.result == 1) {
-	     speed_rewards = `现金收益: 💵${result.data.allCash}元    金币收益: 💰${result.data.totalCoin}`;
-	     await bdinvet();
+          speed_rewards = '积分: '+result.data.totalCoin+'积分  现金: '+result.data.allCash+'元';
+	      await bdinvet();
           await vetInfo()
 		  } 
           resolve()
@@ -334,13 +322,12 @@ function GetCookie() {
      $.msg($.name, `获取极速Cookie: 成功🎉`, ``)
   } else if ($request && $request.method != `OPTIONS` && UA.indexOf("ksNebula") == -1) {
     const cookie = $request.headers['Cookie'] ;
-          cookieVal = cookie.replace(/(appver=[0-9\.]+)(.+)(; client_key=\w+)(.+)(; token=[0-9a-z-]+)(.+)(; userId=\d+)/,'$1$3$5$7');
-         uid= cookieVal.match(/userId=\d+/);
+          cookieVal = cookie.match(/appver=[0-9\.]+/)+cookie.match(/; client_key=\w+/)+cookie.match(/; token=[0-9a-z-]+/)+cookie.match(/; userId=\d+/);
+          uid= cookieVal.match(/userId=\d+/);
     if (ks_tokens) {
       if (ks_tokens.indexOf(uid) > -1) {
         $.log("cookie重复，已跳过")
-      }
-      if (ks_tokens.indexOf(uid) == -1) {
+      } else if (ks_tokens.indexOf(uid) == -1) {
         Cookies = ks_tokens + "&" + cookieVal;
         $.setdata(Cookies, 'cookie_ks');
         ck = Cookies.split("&");
