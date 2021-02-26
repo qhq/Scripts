@@ -22,8 +22,8 @@
       "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js", 
       "name": "新浪微博", 
       "icons": [
-        "https://raw.githubusercontent.com/Orz-3/mini/master/weibo.png", 
-        "https://raw.githubusercontent.com/Orz-3/mini/master/Color/weibo.png"
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/weibo.png", 
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/weibo.png"
       ]
     }, 
     {
@@ -99,23 +99,23 @@
       ], 
       "name": "中青看点", 
       "icons": [
-        "https://raw.githubusercontent.com/Orz-3/mini/master/youth.png", 
-        "https://raw.githubusercontent.com/Orz-3/mini/master/Color/youth.png"
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/youth.png", 
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/youth.png"
       ]
     }, 
     {
       "author": "@sunert", 
       "keys": [
         "youth_start", 
-        "youth_end"
+        "youth_look"
       ], 
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/youth_gain.js", 
       "id": "youthGain", 
       "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth_gain.js", 
-      "name": "中青浏览赚", 
+      "name": "中青浏览赚&看看赚", 
       "icons": [
-        "https://raw.githubusercontent.com/Orz-3/mini/master/youth.png", 
-        "https://raw.githubusercontent.com/Orz-3/mini/master/Color/youth.png"
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/youth.png", 
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/youth.png"
       ]
     }, 
     {
@@ -138,8 +138,8 @@
       "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/Youth_Read.js", 
       "name": "中青自动阅读", 
       "icons": [
-        "https://raw.githubusercontent.com/Orz-3/mini/master/youth.png", 
-        "https://raw.githubusercontent.com/Orz-3/mini/master/Color/youth.png"
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/youth.png", 
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/youth.png"
       ]
     }, 
     {
@@ -176,8 +176,8 @@
       ], 
       "name": "电视家", 
       "icons": [
-        "https://raw.githubusercontent.com/Orz-3/mini/master/dianshijia.png", 
-        "https://raw.githubusercontent.com/Orz-3/mini/master/Color/dianshijia.png"
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/dianshijia.png", 
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/dianshijia.png"
       ]
     }, 
     {
@@ -216,25 +216,8 @@
       "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js", 
       "name": "快手极速版", 
       "icons": [
-        "https://raw.githubusercontent.com/Orz-3/mini/master/kuaishou.png", 
-        "https://raw.githubusercontent.com/Orz-3/mini/master/Color/kuaishou.png"
-      ]
-    }, 
-    {
-      "author": "@sunert", 
-      "keys": [
-        "sy_signurl_snews", 
-        "sy_info_snews", 
-        "sy_ck_snews", 
-        "sy_infoheader_snews"
-      ], 
-      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/sinanews.js", 
-      "id": "sinanews", 
-      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/sinanews.js", 
-      "name": "新浪新闻", 
-      "icons": [
-        "https://raw.githubusercontent.com/Orz-3/mini/master/sinanews.png", 
-        "https://raw.githubusercontent.com/Orz-3/mini/master/Color/sinanews.png"
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/kuaishou.png", 
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/kuaishou.png"
       ]
     }, 
     {
@@ -257,8 +240,8 @@
       ], 
       "name": "天翼电信套餐查询", 
       "icons": [
-        "https://raw.githubusercontent.com/Orz-3/mini/master/telecominfinty.png", 
-        "https://raw.githubusercontent.com/Orz-3/mini/master/Color/telecominfinty.png"
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/telecominfinty.png", 
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/telecominfinty.png"
       ]
     }, 
     {
@@ -271,8 +254,205 @@
       "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jddj.js", 
       "name": "京东到家", 
       "icons": [
-        "https://raw.githubusercontent.com/Orz-3/mini/master/jddj.png", 
-        "https://raw.githubusercontent.com/Orz-3/mini/master/Color/jddj.png"
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/jddj.png", 
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/jddj.png"
+      ]
+    }, 
+    {
+      "author": "@sunert", 
+      "keys": [
+        "token_lkyl",
+        "signature_lkyl",
+        "cookie_lkyl"
+      ], 
+      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/lkyl.js", 
+      "id": "lkyl", 
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/lkyl.js", 
+      "name": "来客有礼", 
+      "icons": [
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/lkyl.png", 
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/lkyl.png"
+      ]
+    }, 
+    {
+      "author": "@sunert", 
+      "keys": [
+        "jukan_body", 
+        "jukan_name"
+      ], 
+      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/jukan.js", 
+      "id": "jukan", 
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jukan.js", 
+      "settings": [
+        {
+          "id": "jukan_out", 
+          "val": false, 
+          "name": "自动提现", 
+          "type": "boolean", 
+          "desc": "自动提现开关，请填入提现金额及微信绑定实名，默认关闭"
+        }, 
+        {
+          "id": "jukan_cash", 
+          "val": "", 
+          "name": "提现金额", 
+          "type": "radios", 
+          "items": [
+            {
+              "key": "3", 
+              "label": "3元(邀请专享)"
+            }, 
+            {
+              "key": "10", 
+              "label": "10元(阅读/邀请)"
+            }, 
+            {
+              "key": "30", 
+              "label": "30元(无条件)"
+            }, 
+            {
+              "key": "50", 
+              "label": "50元(无条件)"
+            }, 
+            {
+              "key": "100", 
+              "label": "100元(无条件)"
+            }
+          ]
+        }, 
+        {
+          "id": "jukan_name", 
+          "placeholder": "填入微信真实姓名", 
+          "val": "", 
+          "name": "微信真实姓名", 
+          "type": "text"
+        }
+      ], 
+      "name": "聚看点", 
+      "icons": [
+        "https://cdn.jsdelivr.net/gh/Sunert/Profiles@master/QuantumultX/Rules/Images/icon/jukan_mini.png", 
+        "https://cdn.jsdelivr.net/gh/Sunert/Profiles@master/QuantumultX/Rules/Images/icon/jukan.png"
+      ]
+    }, 
+    {
+      "author": "@sunert", 
+      "keys": [
+        "sign_mydigit"
+      ], 
+      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/mydigit.js", 
+      "id": "mydigit", 
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/mydigit.js", 
+      "name": "数码之家", 
+      "icons": [
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/mydigit.png", 
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/mydigit.png"
+      ]
+    }, 
+    {
+      "author": "@sunert", 
+      "keys": [
+        "baidu_nick", 
+        "chavy_cookie_tieba", 
+        "CookieTB", 
+        "cash_baidu"
+      ], 
+      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/baiduspeed.js", 
+      "id": "baidu", 
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/baiduspeed.js", 
+      "settings": [
+        {
+          "items": [
+            {
+              "key": "5", 
+              "label": "5元"
+            }, 
+            {
+              "key": "30", 
+              "label": "30元"
+            }, 
+            {
+              "key": "50", 
+              "label": "50元"
+            }, 
+            {
+              "key": "100", 
+              "label": "100元"
+            }
+          ], 
+          "id": "cash_baidu", 
+          "val": "30", 
+          "name": "提现金额", 
+          "type": "radios", 
+          "desc": "自动提现金额"
+        }, 
+        {
+          "id": "task_baidu", 
+          "val": true, 
+          "name": "任务开关", 
+          "type": "boolean", 
+          "desc": "除提现和兑换金币外开关，默认开启所有任务"
+        }
+      ], 
+      "name": "百度极速任务", 
+      "icons": [
+        "https://cdn.jsdelivr.net/gh/Sunert/Profiles@master/QuantumultX/Rules/Images/icon/baiduspeed_mini.png", 
+        "https://cdn.jsdelivr.net/gh/Sunert/Profiles@master/QuantumultX/Rules/Images/icon/baiduspeed.png"
+      ]
+    }, 
+    {
+      "author": "@sunert", 
+      "keys": [
+        "sy_signurl_txnews", 
+        "sy_cookie_txnews", 
+        "video_txnews", 
+        "txnews_id"
+      ], 
+      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/txnews.js", 
+      "id": "txnews", 
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/txnews.js", 
+      "settings": [
+        {
+          "id": "notifynum", 
+          "placeholder": "默认50 (点击以展开说明)", 
+          "val": "", 
+          "name": "通知频率", 
+          "type": "number", 
+          "desc": "阅读篇数间隔通知开为1，常关为0(默认50篇)"
+        }, 
+        {
+          "id": "delay", 
+          "placeholder": "默认200 (点击以展开说明)", 
+          "val": "", 
+          "name": "延迟时间(毫秒)", 
+          "type": "number", 
+          "desc": "接口延迟时间"
+        }
+      ], 
+      "name": "腾讯新闻", 
+      "icons": [
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/txnews.png", 
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/txnews.png"
+      ]
+    }, 
+    {
+      "author": "@sunert", 
+      "keys": [ ], 
+      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/tvpreview.js", 
+      "id": "translate", 
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/translate.js", 
+      "settings": [
+        {
+          "id": "word", 
+          "placeholder": "Hello World", 
+          "val": "Hello World", 
+          "name": "原文", 
+          "type": "textarea", 
+          "desc": "兼容中英文短语翻译，填入原文后手动运行"
+        }
+      ], 
+      "name": "谷歌翻译", 
+      "icons": [
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/translate.png", 
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/translate.png"
       ]
     }, 
     {
@@ -294,8 +474,8 @@
       ], 
       "name": "电视预告", 
       "icons": [
-        "https://github.com/Sunert/Profiles/raw/master/QuantumultX/Rules/Images/icon/tvpreview_mini.png", 
-        "https://github.com/Sunert/Profiles/raw/master/QuantumultX/Rules/Images/icon/tvpreview.png"
+        "https://cdn.jsdelivr.net/gh/Sunert/Profiles@master/QuantumultX/Rules/Images/icon/tvpreview_mini.png", 
+        "https://cdn.jsdelivr.net/gh/Sunert/Profiles@master/QuantumultX/Rules/Images/icon/tvpreview.png"
       ]
     }, 
     {
@@ -365,224 +545,8 @@
       ], 
       "name": "墨迹天气", 
       "icons": [
-        "https://github.com/Sunert/Profiles/raw/master/QuantumultX/Rules/Images/icon/moji_mini.png", 
-        "https://github.com/Sunert/Profiles/raw/master/QuantumultX/Rules/Images/icon/moji.png"
-      ]
-    }, 
-    {
-      "author": "@sunert", 
-      "keys": [
-        "jukan_body", 
-        "jukan_name"
-      ], 
-      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/jukan.js", 
-      "id": "jukan", 
-      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jukan.js", 
-      "settings": [
-        {
-          "id": "jukan_out", 
-          "val": false, 
-          "name": "自动提现", 
-          "type": "boolean", 
-          "desc": "自动提现开关，请填入提现金额及微信绑定实名，默认关闭"
-        }, 
-        {
-          "id": "jukan_cash", 
-          "val": "", 
-          "name": "提现金额", 
-          "type": "radios", 
-          "items": [
-            {
-              "key": "3", 
-              "label": "3元(邀请专享)"
-            }, 
-            {
-              "key": "10", 
-              "label": "10元(阅读/邀请)"
-            }, 
-            {
-              "key": "30", 
-              "label": "30元(无条件)"
-            }, 
-            {
-              "key": "50", 
-              "label": "50元(无条件)"
-            }, 
-            {
-              "key": "100", 
-              "label": "100元(无条件)"
-            }
-          ]
-        }, 
-        {
-          "id": "jukan_name", 
-          "placeholder": "填入微信真实姓名", 
-          "val": "", 
-          "name": "微信真实姓名", 
-          "type": "text"
-        }
-      ], 
-      "name": "聚看点", 
-      "icons": [
-        "https://github.com/Sunert/Profiles/raw/master/QuantumultX/Rules/Images/icon/jukan_mini.png", 
-        "https://github.com/Sunert/Profiles/raw/master/QuantumultX/Rules/Images/icon/jukan.png"
-      ]
-    }, 
-    {
-      "author": "@sunert", 
-      "keys": [
-        "sign_mydigit"
-      ], 
-      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/mydigit.js", 
-      "id": "mydigit", 
-      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/mydigit.js", 
-      "name": "数码之家", 
-      "icons": [
-        "https://raw.githubusercontent.com/Orz-3/mini/master/mydigit.png", 
-        "https://raw.githubusercontent.com/Orz-3/mini/master/Color/mydigit.png"
-      ]
-    }, 
-    {
-      "author": "@sunert", 
-      "keys": [
-        "baidu_nick", 
-        "chavy_cookie_tieba", 
-        "CookieTB", 
-        "cash_baidu"
-      ], 
-      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/baiduspeed.js", 
-      "id": "baidu", 
-      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/baiduspeed.js", 
-      "settings": [
-        {
-          "items": [
-            {
-              "key": "5", 
-              "label": "5元"
-            }, 
-            {
-              "key": "30", 
-              "label": "30元"
-            }, 
-            {
-              "key": "50", 
-              "label": "50元"
-            }, 
-            {
-              "key": "100", 
-              "label": "100元"
-            }
-          ], 
-          "id": "cash_baidu", 
-          "val": "30", 
-          "name": "提现金额", 
-          "type": "radios", 
-          "desc": "自动提现金额"
-        }, 
-        {
-          "id": "task_baidu", 
-          "val": true, 
-          "name": "任务开关", 
-          "type": "boolean", 
-          "desc": "除提现和兑换金币外开关，默认开启所有任务"
-        }
-      ], 
-      "name": "百度极速任务", 
-      "icons": [
-        "https://raw.githubusercontent.com/Sunert/Profiles/master/QuantumultX/Rules/Images/icon/baiduspeed_mini.png", 
-        "https://raw.githubusercontent.com/Sunert/Profiles/master/QuantumultX/Rules/Images/icon/baiduspeed.png"
-      ]
-    }, 
-    {
-      "author": "@sunert", 
-      "keys": [
-        "sy_signurl_txnews", 
-        "sy_cookie_txnews", 
-        "video_txnews", 
-        "txnews_id"
-      ], 
-      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/txnews.js", 
-      "id": "txnews", 
-      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/txnews.js", 
-      "settings": [
-        {
-          "id": "notifynum", 
-          "placeholder": "默认50 (点击以展开说明)", 
-          "val": "", 
-          "name": "通知频率", 
-          "type": "number", 
-          "desc": "阅读篇数间隔通知开为1，常关为0(默认50篇)"
-        }, 
-        {
-          "id": "delay", 
-          "placeholder": "默认200 (点击以展开说明)", 
-          "val": "", 
-          "name": "延迟时间(毫秒)", 
-          "type": "number", 
-          "desc": "接口延迟时间"
-        }
-      ], 
-      "name": "腾讯新闻", 
-      "icons": [
-        "https://raw.githubusercontent.com/Orz-3/mini/master/txnews.png", 
-        "https://raw.githubusercontent.com/Orz-3/mini/master/Color/txnews.png"
-      ]
-    }, 
-    {
-      "author": "@sunert", 
-      "keys": [ ], 
-      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/tvpreview.js", 
-      "id": "translate", 
-      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/translate.js", 
-      "settings": [
-        {
-          "id": "word", 
-          "placeholder": "Hello World", 
-          "val": "Hello World", 
-          "name": "原文", 
-          "type": "textarea", 
-          "desc": "兼容中英文短语翻译，填入原文后手动运行"
-        }
-      ], 
-      "name": "谷歌翻译", 
-      "icons": [
-        "https://raw.githubusercontent.com/Orz-3/mini/master/translate.png", 
-        "https://raw.githubusercontent.com/Orz-3/mini/master/Color/translate.png"
-      ]
-    }, 
-    {
-      "author": "@sunert", 
-      "keys": [ ], 
-      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/exchangeRate.js", 
-      "id": "exchange rate", 
-      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/exchangeRate.js", 
-      "settings": [
-        {
-          "id": "froma", 
-          "val": "人民币", 
-          "name": "使用币", 
-          "type": "text", 
-          "desc": "填写中文币种,注意澳门元为澳门帕塔卡，香港元为港币，台湾为新台币"
-        }, 
-        {
-          "id": "toex", 
-          "val": "港币", 
-          "name": "兑换币", 
-          "type": "text", 
-          "desc": "填写中文币种,注意澳门元为澳门帕塔卡，香港元为港币，台湾为新台币"
-        }, 
-        {
-          "id": "numex", 
-          "val": "10", 
-          "name": "兑换金额", 
-          "type": "number", 
-          "desc": "填写数字"
-        }
-      ], 
-      "name": "汇率换算", 
-      "icons": [
-        "https://raw.githubusercontent.com/Orz-3/mini/master/exchangerate.png", 
-        "https://raw.githubusercontent.com/Orz-3/mini/master/Color/exchangerate.png"
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/moji.png", 
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/moji.png"
       ]
     }, 
     {
@@ -640,8 +604,8 @@
       ], 
       "name": "列车时刻", 
       "icons": [
-        "https://raw.githubusercontent.com/Orz-3/mini/master/12306.png", 
-        "https://raw.githubusercontent.com/Orz-3/mini/master/Color/12306.png"
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/12306.png", 
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/12306.png"
       ]
     }
   ]
